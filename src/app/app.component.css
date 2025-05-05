@@ -1,7 +1,6 @@
 .container {
     display: flex;
-    justify-content: space-around;
-    margin: 50px;
+    justify-content: space-between;
 }
 
 .left {
@@ -27,8 +26,8 @@
 }
 
 .log-area {
-    height: 145px;
-    max-height: 145px;
+    height: 356px;
+    max-height: 356px;
     overflow-y: auto;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
