@@ -1,34 +1,56 @@
-<div>
-<h3>Elevator Status</h3>
-<ul>
-  <li *ngFor="let elevator of elevators">
-    Elevator {{ elevator.id }} - Floor: {{ elevator.currentFloor }} - Direction: {{ elevator.direction | uppercase }} - Targets: {{ elevator.targetFloors.join(', ') || 'None' }}
-  </li>
-</ul>
-
-<hr />
-
-<h3>Manual Request</h3>
-<div class="manual-controls">
-  <label>Floor:
-    <select #floor>
-      <option *ngFor="let num of [1,2,3,4,5,6,7,8,9,10]" [value]="num">{{ num }}</option>
-    </select>
-  </label>
-
-  <label>Direction:
-    <select #dir>
-      <option value="up">Up</option>
-      <option value="down">Down</option>
-    </select>
-  </label>
-
-  <button (click)="manualRequest(floor.value, dir.value)">Send Request</button>
+<div class="heading">
+  <h1>Elevator System</h1>
 </div>
-
+<div class="container">
+  <div class="left">
+  <h3>Elevator Status</h3>
+  <ul>
+    <li *ngFor="let elevator of elevators">
+      Elevator {{ elevator.id }} - Current Floor: {{ elevator.currentFloor }} - Direction: {{ elevator.direction | uppercase }} - Targets: {{ elevator.targetFloors.join(', ') || 'None' }}
+    </li>
+  </ul>
 <hr />
-<label>
-  <input type="checkbox" [(ngModel)]="autoGenerate" />
-  Enable auto-generated requests every 15 seconds
-</label>
+  <h3>Manual Request</h3>
+  <div class="manual-controls">
+    <label class="mg-10">Floor:
+      <select #floor class="mg-10">
+        <option *ngFor="let num of floors" [value]="num">{{ num }}</option>
+      </select>
+    </label>
+
+    <label class="mg-10">Direction:
+      <select #dir class="mg-10">
+        <option value="up">Up</option>
+        <option value="down">Down</option>
+      </select>
+    </label>
+
+    <button class="mg-10" (click)="manualRequest(floor.value, dir.value)">Send Request</button>
+  </div>
+
+  <label>
+    <input type="checkbox" [(ngModel)]="autoGenerate" />
+    Enable auto-generated requests every 15 seconds
+  </label>
+  </div>
+
+ <!-- Request Log -->
+  <div class="right">
+  <div>
+    <div class="log-heading">
+    <h3>Logs</h3>
+    <button [style.visibility]="elevatorControllerService.requestLogs.length === 0 ? 'hidden' : 'visible'" (click)="clearLogs()">
+            Clear Logs</button>
+          </div>
+    <div class="log-area">
+      <div *ngIf="elevatorControllerService.requestLogs.length === 0">
+          No logs to display.
+      </div>
+      <div class="log-item" *ngFor="let log of elevatorControllerService.requestLogs; trackBy: elevatorControllerService.trackByIndex">
+          <span [innerHTML]="log"></span>
+          <span class="text-muted">{{ currentTime | date: 'MMMM d, y, h:mm a' }}</span>
+      </div>
+    </div>
+  </div>
+  </div>
 </div>

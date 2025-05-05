@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ElevatorSystemService } from './elevator-system.service';
+import { ElevatorControllerService } from './elevator-controller.service';
 
-describe('ElevatorSystemService', () => {
-  let service: ElevatorSystemService;
+describe('ElevatorControllerService', () => {
+  let service: ElevatorControllerService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ElevatorSystemService);
+    service = TestBed.inject(ElevatorControllerService);
   });
 
   it('should be created', () => {
@@ -29,5 +29,22 @@ describe('ElevatorSystemService', () => {
     service.requestForElevator(request);
     const anyAssigned = service.elevators.some(e => e.targetFloors.includes(5));
     expect(anyAssigned).toBeTrue();
+  });
+
+  it('should return the current request logs', () => {
+    service['requestLogs'] = ['Elevator 1 moving', 'Elevator 2 stopping'];
+    const logs = service.getLogs();
+    expect(logs).toEqual(['Elevator 1 moving', 'Elevator 2 stopping']);
+  });
+
+  it('should clear all request logs', () => {
+    service['requestLogs'] = ['Log 1', 'Log 2'];
+    service.clearLogs();
+    expect(service['requestLogs']).toEqual([]);
+  });
+
+  it('should return the index passed to it', () => {
+    expect(service.trackByIndex(0)).toBe(0);
+    expect(service.trackByIndex(5)).toBe(5);
   });
 });
