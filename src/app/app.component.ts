@@ -30,7 +30,8 @@ export class AppComponent {
         `Request received: ${request.direction.toUpperCase()} from floor ${request.floor}`
       );
       console.log(`Request received: ${request.direction.toUpperCase()} from floor ${request.floor}`);
-      this.elevatorControllerService.requestForElevator(request);
+      this.currentTime = new Date();
+      this.elevatorControllerService.requestForElevator(request);      
     }, ElevatorConstants.CONFIG.DEFAULT_AUTO_GEN_HALT_TIME);
   }
 
@@ -42,6 +43,7 @@ export class AppComponent {
     this.elevatorControllerService.requestLogs.push(
           `Request received: ${request.direction.toUpperCase()} from floor ${request.floor}`
         );
+    this.currentTime = new Date();
     this.elevatorControllerService.requestForElevator(request);
   }
   
